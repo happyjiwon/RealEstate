@@ -5,7 +5,7 @@
         <div class="header-title">
           <span class="section-title">Real Estate Info</span>
         </div>
-        <button class="logout">로그아웃</button>
+        <button class="logout" v-on:click="logout">로그아웃</button>
       </div>
     </header>
     <div class="sale-info">
@@ -14,7 +14,7 @@
         <tr>
           <td class="title-container">단지</td>
           <td class="input-container">
-            <select v-model="complex">
+            <select v-model="complex" title="complex-select-box">
               <option disabled value="">Please select one</option>
               <option>A</option>
             </select>
@@ -23,38 +23,38 @@
         <tr>
           <td class="title-container">동/호</td>
           <td class="input-container">
-            <input v-model="dong" type="text">동
-            <input v-model="ho" type="text">호
+            <input v-model="dong" type="text" title="complex-dong">동
+            <input v-model="ho" type="text" title="complex-ho">호
           </td>
         </tr>
         <tr>
           <td class="title-container">매매가</td>
           <td class="input-container">
-            <input v-model="price" type="text">
+            <input v-model="price" type="text" title="complex-price">
           </td>
         </tr>
         <tr>
           <td class="title-container">타입</td>
           <td class="input-container">
-            <input v-model="roomType" type="text">
+            <input v-model="roomType" type="text" title="complex-type">
           </td>
         </tr>
         <tr>
           <td class="title-container">향</td>
           <td class="input-container">
-            <input v-model="direction" type="text">
+            <input v-model="direction" type="text" title="complex-direction">
           </td>
         </tr>
         <tr>
           <td class="title-container">학군</td>
           <td class="input-container">
-            <input v-model="school" type="text">
+            <input v-model="school" type="text" title="complex-school-info">
           </td>
         </tr>
         <tr>
           <td class="title-container">특징</td>
           <td class="input-container">
-            <input v-model="characteristic" type="text">
+            <input v-model="characteristic" type="text" title="complex-description">
           </td>
         </tr>
         </tbody>
@@ -77,6 +77,19 @@
         direction: '',
         school: '',
         characteristic: ''
+      }
+    },
+    methods: {
+      logout: function () {
+        this.$http.post('/logout', {
+        })
+          .then((result) => {
+            if (result.data) {
+              location.href = './'
+            } else {
+              alert('로그아웃 실패')
+            }
+          })
       }
     }
   }
@@ -114,7 +127,7 @@
   }
 
   .sale-info {
-    padding-top: 20px;
+    padding-top: 84px;
   }
 
   div {

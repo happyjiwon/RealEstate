@@ -1,6 +1,5 @@
 <template>
   <div class="login">
-    <img src="./../assets/ryan.gif">
     <h2>{{msg}}</h2>
     <ul class="input-container">
       <li class="input-title">ID</li>
@@ -9,7 +8,7 @@
 
     <ul class="input-container">
       <li class="input-title">Password</li>
-      <input v-model="inputPassword" type="password" placeholder="비밀번호를 입력주세요">
+      <input v-model="inputPassword" type="password" placeholder="비밀번호를 입력주세요" v-on:keyup.enter="login">
     </ul>
 
     <button v-on:click="login">Login</button>
@@ -35,7 +34,6 @@ export default {
       })
       .then((result) => {
         if (result.data) {
-          alert('로그인 성공')
           location.href = './briefing'
         } else {
           alert('ID 또는 비밀번호를 확인해 주세요')
@@ -49,8 +47,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.login {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("../assets/main_background.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
 h1, h2 {
-  font-weight: normal;
+  font-size: 64px;
+  font-weight: 300;
+  line-height: 1.41;
+  color: #ffffff;
+  margin: 0;
+  padding-top: 20%;
 }
 
 ul {
@@ -68,13 +80,16 @@ a {
 }
 
 .input-title{
-  width: 10%;
-  min-width: 80px;
+  width: 15%;
+  min-width: 200px;
   text-align: start;
+  color: #ffffff;
+  font-size: 40px;
 }
 
 input {
   height: 30px;
+  outline: 0;
 }
 input::-webkit-input-placeholder {
   font-size: 13px;
@@ -83,5 +98,9 @@ input::-webkit-input-placeholder {
 button {
   width: 100px;
   height: 30px;
+  background-color: #32b8c2;
+  color: #ffffff;
+  border: 0;
+  outline: 0;
 }
 </style>
