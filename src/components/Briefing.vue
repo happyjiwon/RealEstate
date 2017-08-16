@@ -14,9 +14,11 @@
         <tr>
           <td class="title-container">단지</td>
           <td class="input-container">
-            <select v-model="complex" title="complex-select-box">
-              <option disabled value="">Please select one</option>
-              <option>A</option>
+            <select v-model="complex" title="complex-select-box" >
+              <option value="" disabled selected hidden>선택해주세요</option>
+              <option v-for="option in options" v-bind:value="option.COMPLEX_ID">
+                {{ option.COMPLEX_NAME }}
+              </option>
             </select>
           </td>
         </tr>
@@ -59,14 +61,22 @@
         </tr>
         </tbody>
       </table>
+      <button v-on:click="searchSale">검색</button>
       <button v-on:click="">추가하기</button>
+      <button id="kakao-send-btn" v-on:click="sendKakao">카카오톡 전송</button>
+      <sale-component v-bind:saleList="saleList"></sale-component>
     </div>
   </div>
 </template>
 
 <script>
+  import sale from './Sale.vue'
+
   export default {
     name: 'briefing',
+    components: {
+      'sale-component': sale
+    },
     data: function () {
       return {
         complex: '',
@@ -76,10 +86,21 @@
         roomType: '',
         direction: '',
         school: '',
-        characteristic: ''
+        characteristic: '',
+        options: [],
+        saleList: []
       }
     },
+    beforeMount () {
+//      Kakao.init('f572b59050d3cbd22748d248b5776790')
+      this.$http.get('/getComplexInfo', {
+      })
+        .then((result) => {
+          this.options = result.data
+        })
+    },
     methods: {
+      /* eslint no-undef: "off" */
       logout: function () {
         this.$http.post('/logout', {
         })
@@ -90,6 +111,26 @@
               alert('로그아웃 실패')
             }
           })
+      },
+      sendKakao: function () {
+        alert('개발중!!')
+//        Kakao.init('f572b59050d3cbd22748d248b5776790')
+//        Kakao.Link.sendDefault({
+//          container: '#kakao-send-btn',
+//          label: '링크 테스트',
+//          link: {
+//            webUrl: 'http://www.naver.com'
+//          }
+//        })
+      },
+      searchSale: function () {
+        this.$http.post('/getSalesInfo', {
+          complex: this.complex,
+          dong: this.dong,
+          ho: this.ho
+        }).then((result) => {
+          this.saleList = result.data
+        })
       }
     }
   }
@@ -152,6 +193,7 @@
 
   select {
     height: 30px;
+    min-width: 150px;
     outline: 0;
   }
 
